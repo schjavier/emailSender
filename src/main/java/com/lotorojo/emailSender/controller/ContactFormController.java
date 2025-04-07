@@ -19,7 +19,7 @@ public class ContactFormController {
 
 
     @PostMapping("/{addressee}")
-    public ResponseEntity<String> enviarCorreo (@RequestBody ContactForm contactForm,
+    public ResponseEntity<String> sendMail (@RequestBody ContactForm contactForm,
                                                 @PathVariable String addressee){
 
         SimpleMailMessage message = new SimpleMailMessage();

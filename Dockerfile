@@ -13,15 +13,17 @@ FROM eclipse-temurin:23 as deps
 
 WORKDIR /build
 
-# Copy the mvnw wrapper with executable permissions.
-COPY --chmod=0755 mvnw mvnw
+# Copy the mvnw wrapper with a give permisions
+COPY mvnw mvnw
 COPY .mvn/ .mvn/
-
+COPY pom.xml pom.xml
+RUN chmod +x mvnw && ./mvnw dependency:go-offline -DskipTests
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.m2 so that subsequent builds don't have to
 # re-download packages.
-RUN --mount=type=bind,source=pom.xml,target=pom.xml \
-    --mount=type=cache,target=/root/.m2 ./mvnw dependency:go-offline -DskipTests
+#
+#RUN --mount=type=bind,source=pom.xml,target=pom.xml \
+#   --mount=type=cache,target=/root/.m2 ./mvnw dependency:go-offline -DskipTests
 
 ################################################################################
 
@@ -36,10 +38,8 @@ FROM deps as package
 WORKDIR /build
 
 COPY ./src src/
-RUN --mount=type=bind,source=pom.xml,target=pom.xml \
-    --mount=type=cache,target=/root/.m2 \
-    ./mvnw package -DskipTests && \
-    mv target/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
+RUN  ./mvnw package -DskipTests && \
+    mv target/*.jar target/app.jar
 
 ################################################################################
 
@@ -81,6 +81,7 @@ RUN adduser \
     appuser
 USER appuser
 
+WORKDIR /app
 # Copy the executable from the "package" stage.
 COPY --from=extract build/target/extracted/dependencies/ ./
 COPY --from=extract build/target/extracted/spring-boot-loader/ ./
