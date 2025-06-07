@@ -13,7 +13,10 @@ public class CorsConfig implements WebMvcConfigurer {
         @Override
         public void addCorsMappings(CorsRegistry registry){
             registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:4321", "https://payasomarote.com") // Astro en dev mode
+                    .allowedOrigins(
+                            "https://payasomarote.com",
+                            "https://payasomarote.com/es/",
+                            "https://payasomarote.com/en/")
                     .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                     .allowedHeaders("*")
                     .allowCredentials(true);
