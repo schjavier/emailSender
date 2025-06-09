@@ -30,7 +30,6 @@ public class MailServiceImpl implements MailService{
 
         javaMailSender.send(message);
 
-
     }
 
     @Override
@@ -39,7 +38,7 @@ public class MailServiceImpl implements MailService{
         String subject = "Bienvenido!";
         String text = "Gracias por utilizar nuestros servicios!\n" +
                 "Aca abajo esta tu código personal:\n" +
-                 recipient.getPersonalString() + " \nUsalo en tu formulario para" +
+                 recipient.getPersonalString() + " \nUsalo en tu formulario para " +
                 "no exponer tu email. :) ";
 
         SimpleMailMessage message = new SimpleMailMessage();

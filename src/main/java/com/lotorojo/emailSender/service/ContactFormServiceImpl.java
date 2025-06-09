@@ -71,6 +71,6 @@ public class ContactFormServiceImpl implements ContactFormService{
             System.out.println(ex.getMessage());
         }
 
-        return hashedRecipient.subSequence(0,13).toString();
+        return hashedRecipient.subSequence(0, 20).toString();
     }
 }
