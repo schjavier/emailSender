@@ -1,4 +1,4 @@
-package com.lotorojo.emailSender.model;
+package com.lotorojo.emailSender.model.contactForm;
 
 public class ContactForm {
 

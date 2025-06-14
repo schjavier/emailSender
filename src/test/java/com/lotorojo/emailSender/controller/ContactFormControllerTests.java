@@ -1,6 +1,8 @@
 package com.lotorojo.emailSender.controller;
 
-import com.lotorojo.emailSender.model.ContactForm;
+
+import com.lotorojo.emailSender.model.contactForm.RequestContactForm;
+import com.lotorojo.emailSender.model.contactForm.ResponseContactForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,13 +22,13 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class ContactFormControllerTests {
 
-private ContactForm contactForm;
+private RequestContactForm requestContactForm;
 private String addressee;
 
     @BeforeEach
     void setUp(){
 
-        contactForm = new ContactForm(
+        requestContactForm = new RequestContactForm(
                 "Alguien",
                 "yo@alguien.com",
                 "Contacto",
@@ -45,7 +47,7 @@ private String addressee;
     @Test
     void sendMail_mustReturnCreated(){
 
-        ResponseEntity<String> response = formController.sendMail(this.contactForm, this.addressee);
+        ResponseEntity<ResponseContactForm> response = formController.sendMail(this.requestContactForm, this.addressee);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("Correo enviado", response.getBody());
@@ -57,7 +59,7 @@ private String addressee;
     @Test
     void sendMail_mustConfigureMailCorrectly(){
 
-    formController.sendMail(contactForm, addressee);
+    formController.sendMail(requestContactForm, addressee);
 
         ArgumentCaptor<SimpleMailMessage> msgCaptor = ArgumentCaptor.forClass(SimpleMailMessage.class);
 

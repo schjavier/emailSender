@@ -1,9 +1,10 @@
 package com.lotorojo.emailSender.controller;
 
-import com.lotorojo.emailSender.model.ContactForm;
+import com.lotorojo.emailSender.model.contactForm.ResponseContactForm;
+import com.lotorojo.emailSender.service.ContactFormService;
+import com.lotorojo.emailSender.model.contactForm.RequestContactForm;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,30 +12,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/send")
 public class ContactFormController {
 
-    JavaMailSender mailSender;
 
-    public ContactFormController(JavaMailSender javaMailSender){
-        this.mailSender = javaMailSender;
+    ContactFormService contactFormService;
+
+    public ContactFormController(ContactFormService contactFormService){
+        this.contactFormService = contactFormService;
     }
 
 
-    @PostMapping("/{addressee}")
-    public ResponseEntity<String> sendMail (@RequestBody ContactForm contactForm,
-                                                @PathVariable String addressee){
+    @PostMapping("/{recipient}")
+    public ResponseEntity<ResponseContactForm> sendMail (@RequestBody RequestContactForm contactForm,
+                                            @PathVariable String recipient){
 
-        SimpleMailMessage message = new SimpleMailMessage();
+      ResponseContactForm response = contactFormService.processForm(contactForm, recipient);
 
-        message.setTo(addressee);
-        message.setFrom("emailsender@lotorojo.com.ar");
-        message.setSubject(contactForm.getSubject());
-        message.setReplyTo(contactForm.getEmail());
-        message.setText(contactForm.getName() +
-                " Paso por tu web y te dejó este mensaje: " +
-                contactForm.getText());
 
-        mailSender.send(message);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Correo enviado");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 
