@@ -5,6 +5,8 @@ import com.lotorojo.emailSender.model.contactForm.RequestContactForm;
 import com.lotorojo.emailSender.model.contactForm.ResponseContactForm;
 import com.lotorojo.emailSender.model.recipient.Recipient;
 import com.lotorojo.emailSender.model.recipient.RecipientRepository;
+import com.lotorojo.emailSender.validation.ExistenceValidation;
+import com.lotorojo.emailSender.validation.Validations;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +20,12 @@ public class ContactFormServiceImpl implements ContactFormService{
 
     private final RecipientRepository recipientRepository;
     private final MailService mailService;
+    private final Validations<String> validations;
 
-    public ContactFormServiceImpl(RecipientRepository repository, MailService mailService){
+    public ContactFormServiceImpl(RecipientRepository repository, MailService mailService, Validations<String> validations){
         this.recipientRepository = repository;
         this.mailService = mailService;
+        this.validations = validations;
     }
 
     @Override
@@ -42,6 +46,8 @@ public class ContactFormServiceImpl implements ContactFormService{
 
                    return new ResponseContactForm(optionalRecipient.get().getId(), data.name(), data.email(), data.subject(), data.text(), recipient);
         } else {
+
+            validations.validate(recipient);
 
             String hashedRecipient = hashRecipient(recipient);
             Recipient newRecipient = recipientRepository.save(new Recipient(recipient, hashedRecipient));
