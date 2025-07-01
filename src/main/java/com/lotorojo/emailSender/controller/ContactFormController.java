@@ -21,7 +21,7 @@ public class ContactFormController {
 
 
     @PostMapping("/{recipient}")
-    public ResponseEntity<ResponseContactForm> sendMail (@RequestBody RequestContactForm contactForm,
+    public ResponseEntity<ResponseContactForm> sendMail(@RequestBody RequestContactForm contactForm,
                                             @PathVariable String recipient){
 
       ResponseContactForm response = contactFormService.processForm(contactForm, recipient);
