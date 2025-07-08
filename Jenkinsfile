@@ -3,7 +3,7 @@ pipeline{
         dockerContainer {
             image 'schjavier/jenkins-agents:latest'
             volumes [
-                '/var/rn/docker.sock:/var/run/docker.sock'
+                '/var/rn/docker.sock:/var/run/docker.sock',
                 '/home/javier/apps:/home/javier/apps'
             ]
 
