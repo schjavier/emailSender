@@ -1,5 +1,12 @@
 pipeline{
-    agent any
+    agent {
+        docker {
+            image 'schjavier/jenkins-agents:latest'
+            args '-v /var/rn/docker.sock:/var/run/docker.sock -v /home/javier/apps'
+
+        }
+    }
+
     environment{
         DOCKER_COMPOSE_STAGING = "/home/javier/apps/staging/docker-compose-staging.yml"
         DOCKER_COMPOSE_PROD = "/home/javier/apps/production/docker-compose-prod.yml"
