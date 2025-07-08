@@ -1,6 +1,6 @@
 pipeline{
     agent {
-        docker {
+        dockerContainer {
             image 'schjavier/jenkins-agents:latest'
             args '-v /var/rn/docker.sock:/var/run/docker.sock -v /home/javier/apps'
 
