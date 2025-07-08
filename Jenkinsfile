@@ -3,7 +3,6 @@ pipeline{
         label 'emailSenderBuilder'
 
         }
-    }
 
     environment{
         DOCKER_COMPOSE_STAGING = "/home/javier/apps/staging/docker-compose-staging.yml"
