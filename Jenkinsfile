@@ -1,10 +1,6 @@
 pipeline{
     agent {
-        dockerContainer 'schjavier/jenkins-agents:latest' {
-            volumes [
-                '/var/run/docker.sock:/var/run/docker.sock',
-                '/home/javier/apps:/home/javier/apps'
-            ]
+        label 'emailSenderBuilder'
 
         }
     }
@@ -78,8 +74,8 @@ pipeline{
                     <p>Estado: ${currentBuild.currentResult}</p>
                     <p>Job: ${env.JOB_NAME}</p>
                     <p>Build: ${env.BUILD_NUMBER}</p>
-                    <p>URL Staging: <a href="${STAGING_URL}">${STAGING_URL}</a></p>
-                    <p>URL Producción: <a href="${PROD_URL}">${PROD_URL}</a></p>
+                    <p>URL Staging: <a href="${env.STAGING_URL}">${STAGING_URL}</a></p>
+                    <p>URL Producción: <a href="${env.PROD_URL}">${PROD_URL}</a></p>
                 """,
                 to: 'schjavier@gmail.com',
                 recipientProviders: [[$class: 'DevelopersRecipientProvider']]
