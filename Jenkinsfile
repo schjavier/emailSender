@@ -1,9 +1,9 @@
 pipeline{
     agent {
-        dockerContainer {
+        docker {
             image 'schjavier/jenkins-agents:latest'
             volumes [
-                '/var/rn/docker.sock:/var/run/docker.sock',
+                '/var/run/docker.sock:/var/run/docker.sock',
                 '/home/javier/apps:/home/javier/apps'
             ]
 
