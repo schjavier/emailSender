@@ -5,8 +5,8 @@ pipeline{
         }
 
     environment{
-        DOCKER_COMPOSE_STAGING_DIR = "/home/javier/apps/staging"
-        DOCKER_COMPOSE_PROD_DIR = "/home/javier/apps/production"
+        DOCKER_COMPOSE_STAGING_DIR = "/home/javier/apps/staging/"
+        DOCKER_COMPOSE_PROD_DIR = "/home/javier/apps/production/"
         STAGING_URL = "https://staging-emailsender.lotorojo.com.ar"
         PROD_URL = "https://emailsender.lotorojo.com.ar"
     }
