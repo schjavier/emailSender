@@ -36,8 +36,8 @@ pipeline{
                 script{
                     echo "Desplegando en Staging (${STAGING_URL})..."
                     sh """
-                        docker compose -f --remove-orphans down ${DOCKER_COMPOSE_STAGING}
-                        docker compose -f -d --build up ${DOCKER_COMPOSE_STAGING}
+                        docker compose down -f ${DOCKER_COMPOSE_STAGING} --remove-orphans
+                        docker compose up -f ${DOCKER_COMPOSE_STAGING} -d --build
                      """
                 }
             }
@@ -58,8 +58,8 @@ pipeline{
                 script {
                     echo "Desplegando en Producción (${PROD_URL})"
                     sh """
-                        docker compose -f --remove-orphans down ${DOCKER_COMPOSE_PROD}
-                        docker compose -f -d --build up ${DOCKER_COMPOSE_PROD}
+                        docker compose down -f ${DOCKER_COMPOSE_PROD} --remove-orphans
+                        docker compose up -f ${DOCKER_COMPOSE_PROD} -d --build
                        """
                 }
             }
