@@ -5,8 +5,8 @@ pipeline{
         }
 
     environment{
-        DOCKER_COMPOSE_STAGING_PATH = "/home/javier/apps/staging/"
-        DOCKER_COMPOSE_PROD_PATH = "/home/javier/apps/production/"
+        DOCKER_COMPOSE_STAGING_DIR = "/home/javier/apps/staging"
+        DOCKER_COMPOSE_PROD_DIR = "/home/javier/apps/production"
         STAGING_URL = "https://staging-emailsender.lotorojo.com.ar"
         PROD_URL = "https://emailsender.lotorojo.com.ar"
     }
@@ -35,7 +35,7 @@ pipeline{
             steps{
                 script{
                     echo "Desplegando en Staging (${STAGING_URL})..."
-                    dir(${DOCKER_COMPOSE_STAGING_PATH}){
+                    dir("${DOCKER_COMPOSE_STAGING_DIR}"){
                         sh """
                             docker compose down --remove-orphans
                             docker compose up -d --build
@@ -60,7 +60,7 @@ pipeline{
                 script {
                     echo "Desplegando en Producción (${PROD_URL})"
 
-                    dir(${DOCKER_COMPOSE_PROD_PATH}){
+                    dir("${DOCKER_COMPOSE_PROD_DIR}"){
                         sh """
                             docker compose down --remove-orphans
                             docker compose up -d --build
