@@ -37,7 +37,7 @@ pipeline{
                     echo "Desplegando en Staging (${STAGING_URL})..."
                     dir("${DOCKER_COMPOSE_STAGING_DIR}"){
                         sh """
-                            docker compose down
+                            docker compose down --remove-orphans
                             docker compose up -d --build
                          """
                     }
@@ -62,7 +62,7 @@ pipeline{
 
                     dir("${DOCKER_COMPOSE_PROD_DIR}"){
                         sh """
-                            docker compose down
+                            docker compose down --remove-orphans
                             docker compose up -d --build
                            """
                     }
