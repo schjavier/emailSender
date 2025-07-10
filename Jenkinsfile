@@ -6,7 +6,9 @@ pipeline{
 
     environment{
         DOCKER_COMPOSE_STAGING_DIR = "/home/javier/apps/staging/"
+        DOCKER_COMPOSE_STAGING_FILE = "/home/javier/apps/staging/docker-compose-staging.yml"
         DOCKER_COMPOSE_PROD_DIR = "/home/javier/apps/production/"
+        DOCKER_COMPOSE_PROD_FILE = "/home/javier/apps/production/docker-compose-prod.yml"
         STAGING_URL = "https://staging-emailsender.lotorojo.com.ar"
         PROD_URL = "https://emailsender.lotorojo.com.ar"
     }
@@ -37,8 +39,8 @@ pipeline{
                     echo "Desplegando en Staging (${STAGING_URL})..."
                     dir("${DOCKER_COMPOSE_STAGING_DIR}"){
                         sh """
-                            docker compose down --remove-orphans
-                            docker compose up -d --build
+                            docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} down --remove-orphans
+                            docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} up -d --build
                          """
                     }
                 }
@@ -62,8 +64,8 @@ pipeline{
 
                     dir("${DOCKER_COMPOSE_PROD_DIR}"){
                         sh """
-                            docker compose down --remove-orphans
-                            docker compose up -d --build
+                            docker compose -f ${DOCKER_COMPOSE_PROD_FILE} down --remove-orphans
+                            docker compose -f ${DOCKER_COMPOSE_PROD_FILE} up -d --build
                            """
                     }
                 }
