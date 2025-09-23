@@ -40,7 +40,8 @@ pipeline{
                     dir("${DOCKER_COMPOSE_STAGING_DIR}"){
                         sh """
                             docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} down --remove-orphans
-                            docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} up -d --build --no-cache
+                            docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} build --no-cache
+                            docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} up -d
                          """
                     }
                 }
@@ -65,7 +66,8 @@ pipeline{
                     dir("${DOCKER_COMPOSE_PROD_DIR}"){
                         sh """
                             docker compose -f ${DOCKER_COMPOSE_PROD_FILE} down --remove-orphans
-                            docker compose -f ${DOCKER_COMPOSE_PROD_FILE} up -d --build --no-cache
+                            docker compose -f ${DOCKER_COMPOSE_PROD_FILE} build --no-cache
+                            docker compose -f ${DOCKER_COMPOSE_PROD_FILE} up -d
                            """
                     }
                 }
