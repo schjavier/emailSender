@@ -5,7 +5,7 @@ pipeline{
         }
 
     environment{
-        CODE_BASE_DIR = "/home/apps/emailSender"
+        CODE_BASE_DIR = "/home/javier/apps/emailSender"
         DOCKER_COMPOSE_STAGING_DIR = "/home/javier/apps/staging/"
         DOCKER_COMPOSE_STAGING_FILE = "/home/javier/apps/staging/docker-compose-staging.yml"
         DOCKER_COMPOSE_PROD_DIR = "/home/javier/apps/production/"
