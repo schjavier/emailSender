@@ -37,8 +37,6 @@ FROM deps as package
 
 WORKDIR /build
 
-ARG CACHE_BUSTER
-
 COPY ./src src/
 RUN  ./mvnw package -DskipTests && \
     mv target/*.jar target/app.jar

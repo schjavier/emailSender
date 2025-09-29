@@ -16,6 +16,7 @@ pipeline{
 
         stage('Checkout'){
             steps {
+                cleanWs()
                 git branch: 'main',
                 url: 'https://github.com/schjavier/emailSender.git',
                 poll: false
@@ -40,7 +41,7 @@ pipeline{
                     dir("${DOCKER_COMPOSE_STAGING_DIR}"){
                         sh """
                             docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} down --remove-orphans
-                            docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} build --build-arg CACHE_BUSTER=${env.BUILD_NUMBER}
+                            docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} build --no-cache
                             docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} up -d
                          """
                     }
@@ -66,7 +67,7 @@ pipeline{
                     dir("${DOCKER_COMPOSE_PROD_DIR}"){
                         sh """
                             docker compose -f ${DOCKER_COMPOSE_PROD_FILE} down --remove-orphans
-                            docker compose -f ${DOCKER_COMPOSE_PROD_FILE} build --build-arg CACHE_BUSTER=${env.BUILD_NUMBER}
+                            docker compose -f ${DOCKER_COMPOSE_PROD_FILE} build --no-cache
                             docker compose -f ${DOCKER_COMPOSE_PROD_FILE} up -d
                            """
                     }
