@@ -5,6 +5,7 @@ pipeline{
         }
 
     environment{
+        CODE_BASE_DIR = "/home/apps/emailSender"
         DOCKER_COMPOSE_STAGING_DIR = "/home/javier/apps/staging/"
         DOCKER_COMPOSE_STAGING_FILE = "/home/javier/apps/staging/docker-compose-staging.yml"
         DOCKER_COMPOSE_PROD_DIR = "/home/javier/apps/production/"
@@ -17,19 +18,27 @@ pipeline{
         stage('Checkout'){
             steps {
                 cleanWs()
-                git branch: 'main',
-                url: 'https://github.com/schjavier/emailSender.git',
-                poll: false
+
+                sh 'git clone https://github.com/schjavier/emailSender.git'
+                dir(CODE_BASE_DIR){
+                    sh 'git checkout main'
+                }
+
+//                 git branch: 'main',
+//                 url: 'https://github.com/schjavier/emailSender.git',
+//                 poll: false
             }
         }
 
         stage('Build & Test'){
             steps {
-                sh 'mvn clean package -DskipTests=false'
+                dir(CODE_BASE_DIR){
+                    sh 'mvn clean package -DskipTests=false'
+                }
             }
             post {
                 success{
-                    archiveArtifacts artifacts: 'target/*.jar', onlyIfSuccessful: true
+                    archiveArtifacts artifacts: 'emailSender/target/*.jar', onlyIfSuccessful: true
                 }
             }
         }
@@ -38,7 +47,7 @@ pipeline{
             steps{
                 script{
                     echo "Desplegando en Staging (${STAGING_URL})..."
-                    dir("${DOCKER_COMPOSE_STAGING_DIR}"){
+                    dir("${CODE_BASE_DIR}"){
                         sh """
                             docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} down --remove-orphans
                             docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} build --no-cache
@@ -64,7 +73,7 @@ pipeline{
                 script {
                     echo "Desplegando en Producción (${PROD_URL})"
 
-                    dir("${DOCKER_COMPOSE_PROD_DIR}"){
+                    dir("${CODE_BASE_DIR}"){
                         sh """
                             docker compose -f ${DOCKER_COMPOSE_PROD_FILE} down --remove-orphans
                             docker compose -f ${DOCKER_COMPOSE_PROD_FILE} build --no-cache
