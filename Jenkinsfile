@@ -40,7 +40,7 @@ pipeline{
                     dir("${DOCKER_COMPOSE_STAGING_DIR}"){
                         sh """
                             docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} down --remove-orphans
-                            docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} build --no-cache
+                            docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} build --build-arg CACHE_BUSTER=${env.BUILD_NUMBER}
                             docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} up -d
                          """
                     }
@@ -66,7 +66,7 @@ pipeline{
                     dir("${DOCKER_COMPOSE_PROD_DIR}"){
                         sh """
                             docker compose -f ${DOCKER_COMPOSE_PROD_FILE} down --remove-orphans
-                            docker compose -f ${DOCKER_COMPOSE_PROD_FILE} build --no-cache
+                            docker compose -f ${DOCKER_COMPOSE_PROD_FILE} build --build-arg CACHE_BUSTER=${env.BUILD_NUMBER}
                             docker compose -f ${DOCKER_COMPOSE_PROD_FILE} up -d
                            """
                     }
@@ -79,11 +79,11 @@ pipeline{
             emailext (
                 subject: "[Jenkins] ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
                 body: """
-                    <p>Estado: ${currentBuild.currentResult}</p>
-                    <p>Job: ${env.JOB_NAME}</p>
-                    <p>Build: ${env.BUILD_NUMBER}</p>
-                    <p>URL Staging: <a href="${env.STAGING_URL}">${env.STAGING_URL}</a></p>
-                    <p>URL Producción: <a href="${env.PROD_URL}">${env.PROD_URL}</a></p>
+                    Estado: ${currentBuild.currentResult}
+                    Job: ${env.JOB_NAME}
+                    Build: ${env.BUILD_NUMBER}
+                    URL Staging: <a href="${env.STAGING_URL}">${env.STAGING_URL}</a>
+                    URL Producción: <a href="${env.PROD_URL}">${env.PROD_URL}</a>
                 """,
                 to: 'schjavier@gmail.com',
                 recipientProviders: [[$class: 'DevelopersRecipientProvider']]
