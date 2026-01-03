@@ -16,7 +16,10 @@ public class CorsConfig implements WebMvcConfigurer {
                     .allowedOrigins(
                             "https://payasomarote.com",
                             "https://payasomarote.com/es/",
-                            "https://payasomarote.com/en/")
+                            "https://payasomarote.com/en/",
+                            "https://www.payasomarote.com",
+                            "https://www.payasomarote.com/es/",
+                            "https://www.payasomarote.com/en/")
                     .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                     .allowedHeaders("*")
                     .allowCredentials(true);
