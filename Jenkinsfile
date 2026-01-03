@@ -34,7 +34,7 @@ pipeline{
                 post {
                     success{
                         sh 'cp ${CODE_BASE_DIR}/target/*.jar .'
-                        archiveArtifacts artifacts: 'emailSender/target/*.jar', onlyIfSuccessful: true
+                        archiveArtifacts artifacts: '*.jar', onlyIfSuccessful: true
                     }
                 }
             }
