@@ -45,9 +45,9 @@ pipeline{
                         echo "Desplegando en Staging (${STAGING_URL})..."
                         dir("${CODE_BASE_DIR}"){
                             sh """
-                                docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} down --remove-orphans
-                                docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} build --no-cache
-                                docker compose -f ${DOCKER_COMPOSE_STAGING_FILE} up -d
+                                docker compose --env-file ${DOCKER_COMPOSE_STAGING_DIR}.env -f ${DOCKER_COMPOSE_STAGING_FILE} down --remove-orphans
+                                docker compose --env-file ${DOCKER_COMPOSE_STAGING_DIR}.env -f ${DOCKER_COMPOSE_STAGING_FILE} build --no-cache
+                                docker compose --env-file ${DOCKER_COMPOSE_STAGING_DIR}.env -f ${DOCKER_COMPOSE_STAGING_FILE} up -d
                              """
                         }
                     }
@@ -72,9 +72,9 @@ pipeline{
 
                         dir("${CODE_BASE_DIR}"){
                             sh """
-                                docker compose -f ${DOCKER_COMPOSE_PROD_FILE} down --remove-orphans
-                                docker compose -f ${DOCKER_COMPOSE_PROD_FILE} build --no-cache
-                                docker compose -f ${DOCKER_COMPOSE_PROD_FILE} up -d
+                                docker compose --env-file ${DOCKER_COMPOSE_PROD_DIR}.env -f ${DOCKER_COMPOSE_PROD_FILE} down --remove-orphans
+                                docker compose --env-file ${DOCKER_COMPOSE_PROD_DIR}.env -f ${DOCKER_COMPOSE_PROD_FILE} build --no-cache
+                                docker compose --env-file ${DOCKER_COMPOSE_PROD_DIR}.env -f ${DOCKER_COMPOSE_PROD_FILE} up -d
                                """
                         }
                     }
